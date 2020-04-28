@@ -2,13 +2,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-static int rec(int *, int *, int *, int, int);
+static int rec(int * w, int * v, int * dp);
 
-static int max(int, int);
+static int max(int i, int j);
+
+int n, W;
 
 int main()
 {
-	int n, W;
 	printf("Please input n & W : \n");
 	scanf("%d %d",&n,&W);
 	int sdp = W+1;
@@ -20,14 +21,11 @@ int main()
 		scanf("%d %d",&w[i],&v[i]);
 	}
 	memset(dp,0,sdp * sizeof(int));
-	printf("%d\n",rec(w,v,dp,n,W));
+	printf("%d\n",rec(w,v,dp));
 	return 0;
 }
 
-int rec(w,v,dp,n,W)
-int * w, * v;
-int * dp;
-int n, W;
+int rec(int * w, int * v, int * dp)
 {
 	for (int i = 0; i < n; i++)
 	{

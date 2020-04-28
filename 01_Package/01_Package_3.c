@@ -2,18 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define dp(M,N,length)	dp[(M)*(length+1)+(N)]
+#define dp(M,N,length)	dp[(M)*(length)+(N)]
 
-static int rec(int *, int *, int *, int, int);
+static int rec(int * w, int * v, int * dp);
 
-static int max(int, int);
+static int max(int i, int j);
+
+int n, W;
 
 int main()
 {
-	int n, W;
 	printf("Please input n & W : \n");
 	scanf("%d %d",&n,&W);
-	int sdp = (n+1) * (W+1);
+	int sdp = (n + 1) * W;
 	int * w = (int *)malloc(n * sizeof(int));
 	int * v = (int *)malloc(n * sizeof(int));
 	int * dp = (int *)malloc(sdp * sizeof(int));
@@ -22,28 +23,23 @@ int main()
 		scanf("%d %d",&w[i],&v[i]);
 	}
 	memset(dp,0,sdp * sizeof(int));
-	printf("%d\n",rec(w,v,dp,n,W));
+	printf("%d\n",rec(w,v,dp));
 	return 0;
 }
 
-int rec(w,v,dp,n,W)
-int * w, * v;
-int * dp;
-int n, W;
+int rec(int * w, int * v, int * dp)
 {
 	for (int i = 0; i < n; i++)
 	{
-		for (int j = 0; j <= W; j++)
+		for (int j = 0; j < W; j++)
 		{
 			if (j < w[i])
-				dp(i+1,j,n) = dp(i,j,n);
+				dp(i+1,j,W) = dp(i,j,W);
 			else
-				dp(i+1,j,n) = max(dp(i,j,n),dp(i,j-w[i],n)+v[i]);
-			printf("%3d",dp(i+1,j,n));
+				dp(i+1,j,W) = max(dp(i,j,W),dp(i,j-w[i],W)+v[i]);
 		}
-		printf("\n");
 	}
-	return dp(n,W,n);
+	return dp(n,W-1,W);
 }
 
 int max(int i, int j)

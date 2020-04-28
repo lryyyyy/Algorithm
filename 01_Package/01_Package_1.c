@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static int rec(int, int, int *, int *, int);
+static int rec(int i, int j, int * w, int * v);
 
-static int max(int, int);
+static int max(int i, int j);
+
+int n, W;
 
 int main()
 {
-	int n, W;
 	printf("Please input n & W : \n");
 	scanf("%d %d",&n,&W);
 	int * w = (int *)malloc(n * sizeof(int));
@@ -16,21 +17,19 @@ int main()
 	{
 		scanf("%d %d",&w[i],&v[i]);
 	}
-	printf("%d\n",rec(0,W,w,v,n));
+	printf("%d\n",rec(0,W,w,v));
 	return 0;
 }
 
-int rec(i, j, w, v, n)
-int i, j, n;
-int * w, * v;
+int rec(int i, int j, int * w, int * v)
 {
 	int res;
 	if (i == n)
 		res = 0;
 	else if (j < w[i])
-		res = rec(i+1,j,w,v,n);
+		res = rec(i+1,j,w,v);
 	else
-		res = max(rec(i+1,j,w,v,n), rec(i+1,j-w[i],w,v,n)+v[i]);
+		res = max(rec(i+1,j,w,v), rec(i+1,j-w[i],w,v)+v[i]);
 	return res;
 }
 
